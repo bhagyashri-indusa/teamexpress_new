@@ -1,0 +1,4 @@
+.admin__menu .item-mageunslider > a:before {
+    color: #fff;
+}
+

@@ -1,0 +1,84 @@
+<?php
+/**
+ * Copyright � 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+?>
+<?php
+/**
+ * @var $block \Magento\Reports\Block\Product\Viewed
+ */
+?>
+<?php
+//if ($exist = ($block->getProductCollection() && $block->getProductCollection()->getSize())) {
+	$type = 'widget-viewed';
+	$mode = 'grid';
+	$productsliderId = "12345678";
+	$type = $type . '-' . $mode;
+
+	$image = 'recently_viewed_products_grid_content_widget';
+	$title = __('New Brands');
+	$items = $block->getProductCollection();
+	$info  = "";
+
+	$showWishlist = true;
+	$showCompare = true;
+	$showCart = true;
+	$rating = 'short';
+	$description = ($mode == 'list') ? true : false;
+        
+        $_objectManager = \Magento\Framework\App\ObjectManager::getInstance(); //instance of\Magento\Framework\App\ObjectManager
+        $storeManager = $_objectManager->get('Magento\Store\Model\StoreManagerInterface'); 
+        $currentStore = $storeManager->getStore();
+        $media = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+        $linkUrl = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK);
+        
+       
+        
+//}
+?>
+
+<?php //if ($exist):?>
+	<?php if ($title): ?>
+	<div class="mp-product-slider-block block  widget block-products-list <?php echo $mode; ?>">
+	<h2 class="mp-product-slider-title"><?php echo $title; ?></h2>
+	<?php endif;?>
+	<p class="mp-ps-info"><?php echo $info; ?></p>
+			</div>
+        <div class="block-content product-slider-wrapper ">
+            <?php /* @escapeNotVerified */ echo '<!-- ' . $image . '-->' ?>
+			<div class="products-<?php /* @escapeNotVerified */ echo $mode; ?> <?php /* @escapeNotVerified */ echo $mode; ?>">
+                <ol class="product-items <?php /* @escapeNotVerified */ echo $type; ?>">
+                    <?php $iterator = 1; ?>
+					<div class="owl-carousel" id="mageplaza-product-slider-<?php echo $productsliderId; ?>">
+					<?php foreach ($items as $_item): ?>
+						<?php /* @escapeNotVerified */ echo($iterator++ == 1) ? '<li class="product-item product-slider"">' : '</li><li class="product-item product-slider"">' ?>
+						<div class="product-item-info">
+                                                    <?php 
+                                                    $url = $this->getUrl('brand/view/',array('id'=>$_item['id']));
+                                                    ?>
+                                                    <a href="<?php /* @escapeNotVerified */ echo $url; ?>" class="product-item-photo">
+                                                       <?php if($_item['logo']):?>
+                                                                <img class="f-barnd-img" src="<?php echo $media.$_item['logo'] ?>" title="<?php echo $_item['name'];?>" alt="<?php echo $_item['name'];?>" style="height:100px"/>
+                                                        <?php endif;?>
+                                                    </a>
+                                                </div>
+						<?php echo($iterator == count($items)+1) ? '</li>' : '' ?>
+					<?php endforeach ?>
+					</div>
+                </ol>
+            </div>
+			<?php echo $block->getPagerHtml() ?>
+        </div>
+	<script>
+			require([
+				'jquery',
+				'Mageplaza_Productslider/js/owl.carousel.min'
+			], function ($) {
+				$('#mageplaza-product-slider-<?php echo $productsliderId;?>').owlCarousel(<?php echo ($block->getAllOptions())?>);
+			});
+	</script>
+<?php //endif;?>
+

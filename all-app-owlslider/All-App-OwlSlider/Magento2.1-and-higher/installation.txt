@@ -1,0 +1,6 @@
+1 - copy past all folders and files in you root project
+2 - enable extension in app/etc/config.php by adding 'Ibnab_OwlSlider' => 1 , 'Ibnab_Common' => 1
+3 - go to terminal and tape this lines:
+php bin/magento setup:upgrade
+rm -rf pub/static/*
+php bin/magento setup:static-content:deploy

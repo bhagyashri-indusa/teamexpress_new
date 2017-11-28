@@ -1,0 +1,7 @@
+var config = {
+    map: {
+        '*': {
+            common/import:       'Ibnab_Common/js/import'
+        }
+    }
+}
